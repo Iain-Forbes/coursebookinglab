@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.print.DocFlavor;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,8 +26,19 @@ public class CustomerController {
     // GET /customers?courseName=Java       findByBookingsCourseName(java)
     @GetMapping(value = "/customers")
     public ResponseEntity<List<Customer>> getAllCustomers(
-            @RequestParam(name = "courseName", required = false) String courseName
-    ) {
+            @RequestParam(name = "courseName", required = false) String courseName,
+            @RequestParam(name = "customerTown", required = false) String customerTown,
+            @RequestParam(name = "age", required = false) Integer age
+            )
+    {
+        if(age != null && customerTown != null && courseName != null){
+            List<Customer> townAndNameAndAge = customerRepository.findByAgeGreaterThanAndTownAndBookingsCourseName(age, customerTown, courseName);
+            return new ResponseEntity<>(townAndNameAndAge, HttpStatus.OK);
+        }
+        if(customerTown != null && courseName != null){
+            List<Customer> townAndName = customerRepository.findByTownAndBookingsCourseNameIgnoreCase(customerTown, courseName);
+            return new ResponseEntity<>(townAndName, HttpStatus.OK);
+        }
         if(courseName != null) {
             List<Customer> course = customerRepository.findByBookingsCourseNameIgnoreCase(courseName);
             return new ResponseEntity<>(course, HttpStatus.OK);
