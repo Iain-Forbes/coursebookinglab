@@ -37,10 +37,5 @@ class CoursebookingApplicationTests {
 		Booking booking = new Booking("11-02-21", course, customer);
 		bookingRepository.save(booking);
 
-		customer.addBooking(booking);
-		customerRepository.save(customer);
-
-		course.addBooking(booking);
-		courseRepository.save(course);
 	}
 }

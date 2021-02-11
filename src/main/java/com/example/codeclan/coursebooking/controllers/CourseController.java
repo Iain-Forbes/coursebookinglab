@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,9 +20,26 @@ public class CourseController {
     @Autowired
     CourseRepository courseRepository;
 
+
+
     // INDEX (GET all Courses)
+    // GET /courses
+    // GET /courses?starRating=3        findByStarRating(3)
+    // GET /courses?customerName=Dave   findByCustomerName(Dave)
     @GetMapping(value = "/courses")
-    public ResponseEntity<List<Course>> getAllCourses() {
+    public ResponseEntity<List<Course>> getAllCourses(
+            @RequestParam(name = "starRating", required = false) Integer starRating,
+            @RequestParam(name = "customerName", required = false) String customerName
+    ) {
+
+        if (starRating != null) {
+            List<Course> rating = courseRepository.findByStarRating(starRating);
+            return new ResponseEntity<>(rating, HttpStatus.OK);
+        }
+        if (customerName != null) {
+            List<Course> name = courseRepository.findByBookingsCustomerNameIgnoreCase(customerName);
+            return new ResponseEntity<>(name, HttpStatus.OK);
+        }
         List<Course> allCourses = courseRepository.findAll();
         return new ResponseEntity<>(allCourses, HttpStatus.OK);
     }
