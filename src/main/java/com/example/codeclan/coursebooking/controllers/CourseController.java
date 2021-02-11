@@ -20,8 +20,6 @@ public class CourseController {
     @Autowired
     CourseRepository courseRepository;
 
-
-
     // INDEX (GET all Courses)
     // GET /courses
     // GET /courses?starRating=3        findByStarRating(3)
