@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.annotation.Generated;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,14 +28,18 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Customer(String name, String town, int age, List<Booking> bookings) {
+    public Customer(String name, String town, int age) {
         this.name = name;
         this.town = town;
         this.age = age;
-        this.bookings = bookings;
+        this.bookings = new ArrayList<>();
     }
 
     public Customer() {
+    }
+
+    public void addBooking(Booking booking) {
+        this.bookings.add(booking);
     }
 
     public String getName() {

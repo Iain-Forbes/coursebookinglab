@@ -37,6 +37,9 @@ public class Course {
     public Course() {
     }
 
+    public void addBooking(Booking booking) {
+        this.bookings.add(booking);
+    }
     public String getName() {
         return name;
     }
