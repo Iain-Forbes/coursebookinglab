@@ -32,7 +32,9 @@ public class CustomerController {
             )
     {
         if(age != null && customerTown != null && courseName != null){
-            List<Customer> townAndNameAndAge = customerRepository.findByAgeGreaterThanAndTownAndBookingsCourseName(age, customerTown, courseName);
+            List<Customer> townAndNameAndAge =
+                    customerRepository.findByAgeGreaterThanAndTownIgnoreCaseAndBookingsCourseNameIgnoreCase(age,
+                            customerTown, courseName);
             return new ResponseEntity<>(townAndNameAndAge, HttpStatus.OK);
         }
         if(customerTown != null && courseName != null){
