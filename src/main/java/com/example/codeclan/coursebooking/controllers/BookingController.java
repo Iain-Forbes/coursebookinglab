@@ -5,10 +5,10 @@ import com.example.codeclan.coursebooking.repositories.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class BookingController {
@@ -24,4 +24,21 @@ public class BookingController {
     }
 
     // SHOW (Get Booking by ID)
+    @GetMapping(value = "/bookings/{id}")
+    public ResponseEntity<Optional<Booking>> getBookingById(@PathVariable Long id) {
+        Optional<Booking> booking = bookingRepository.findById(id);
+        return new ResponseEntity<>(booking, HttpStatus.OK);
+    }
+
+    // CREATE (POST request)
+    @PostMapping(value = "/bookings")
+    public ResponseEntity<Booking> createBooking(@RequestBody Booking newBooking) {
+        Booking createdBooking = bookingRepository.save(newBooking);
+        return new ResponseEntity<>(createdBooking, HttpStatus.CREATED);
+    }
+
+    // UPDATE (PUT request)
+
+
+    // DELETE
 }
