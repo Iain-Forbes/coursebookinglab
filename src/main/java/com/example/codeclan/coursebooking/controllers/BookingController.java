@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.transform.OutputKeys;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +19,15 @@ public class BookingController {
 
     // INDEX (GET all Bookings)
     @GetMapping(value = "/bookings")
-    public ResponseEntity<List<Booking>> getAllBookings() {
+    public ResponseEntity<List<Booking>> getAllBookings(
+            @RequestParam(name = "bookingDate", required = false) String date
+    ) {
+        if(date != null){
+            List<Booking> bookingDate = bookingRepository.findByDate(date);
+            return new ResponseEntity<>(bookingDate, HttpStatus.OK);
+        }
+
+
         List<Booking> allBookings = bookingRepository.findAll();
         return new ResponseEntity<>(allBookings, HttpStatus.OK);
     }
