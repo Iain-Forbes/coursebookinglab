@@ -1,10 +1,24 @@
 package com.example.codeclan.coursebooking.models;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "bookings")
 public class Booking {
 
+    @Column
     private String date;
+
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     public Booking(String date, Course course, Customer customer) {
